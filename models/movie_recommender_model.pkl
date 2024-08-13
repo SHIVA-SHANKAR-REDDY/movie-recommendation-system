@@ -1,0 +1,15 @@
+import pickle
+from surprise import SVD, Dataset, Reader
+
+# Load data
+reader = Reader(line_format='user item rating timestamp', sep=',')
+data = Dataset.load_from_file('train_data.csv', reader=reader)
+
+# Train model
+trainset = data.build_full_trainset()
+model = SVD()
+model.fit(trainset)
+
+# Save model
+with open('movie_recommender_model.pkl', 'wb') as f:
+    pickle.dump(model, f)
